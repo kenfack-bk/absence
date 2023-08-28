@@ -1,8 +1,13 @@
 package com.bksoft.absence.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tutors")
 public class Tutor extends BaseEntity{
@@ -24,43 +29,4 @@ public class Tutor extends BaseEntity{
         this.phoneNumber2 = phoneNumber2;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber1() {
-        return phoneNumber1;
-    }
-
-    public void setPhoneNumber1(String phoneNumber1) {
-        this.phoneNumber1 = phoneNumber1;
-    }
-
-    public String getPhoneNumber2() {
-        return phoneNumber2;
-    }
-
-    public void setPhoneNumber2(String phoneNumber2) {
-        this.phoneNumber2 = phoneNumber2;
-    }
 }

@@ -1,26 +1,14 @@
 package com.bksoft.absence.models;
 
-
-import com.bksoft.absence.models.audit.DateAudit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vladmihalcea.hibernate.type.array.IntArrayType;
-import com.vladmihalcea.hibernate.type.array.StringArrayType;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@TypeDefs({
-        @TypeDef(
-                name = "string-array",
-                typeClass = StringArrayType.class
-        ),
-        @TypeDef(
-                name = "int-array",
-                typeClass = IntArrayType.class
-        )
-})
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -35,28 +23,9 @@ public abstract class BaseEntity {
 
     protected  void validate(){}
 
-    /*
-     * Getters and Setters
-     */
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @JsonIgnore
     public boolean isNew() {
         return (this.id == null);
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     @Override

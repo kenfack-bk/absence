@@ -15,7 +15,7 @@ import com.bksoft.absence.models.Classroom;
 import com.bksoft.absence.models.Slot;
 import com.bksoft.absence.models.Student;
 import com.bksoft.absence.payload.AbsenceLine;
-import com.bksoft.absence.payload.EditAbsenceRequest;
+import com.bksoft.absence.payload.EditAbsencePayload;
 import com.bksoft.absence.payload.JustifyAbsenceRequest;
 import com.bksoft.absence.repository.AbsenceRepository;
 import com.bksoft.absence.repository.ClassroomRepository;
@@ -63,7 +63,7 @@ public class EditServiceImpl implements EditService {
     }
 
     @Override
-    public void editAbsences(EditAbsenceRequest request) {
+    public void editAbsences(EditAbsencePayload request) {
         List<Slot> slots = slotRepository.findAll();
         Classroom classroom = classroomRepository.findByCode(request.getClassroomCode());
         List<Student> students = studentRepository.findAllStudentIn(

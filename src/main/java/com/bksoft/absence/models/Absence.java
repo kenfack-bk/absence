@@ -1,9 +1,13 @@
 package com.bksoft.absence.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "absences")
 public class Absence extends BaseEntity{
@@ -41,51 +45,4 @@ public class Absence extends BaseEntity{
         this.justification = justification;
     }
 
-    public LocalDate getAbsenceDate() {
-        return absenceDate;
-    }
-
-    public void setAbsenceDate(LocalDate absenceDate) {
-        this.absenceDate = absenceDate;
-    }
-
-    public boolean isJustify() {
-        return justify;
-    }
-
-    public void setJustify(boolean justify) {
-        this.justify = justify;
-    }
-
-    public String getJustification() {
-        return justification;
-    }
-
-    public void setJustification(String justification) {
-        this.justification = justification;
-    }
-
-    public Slot getSlot() {
-        return slot;
-    }
-
-    public void setSlot(Slot slot) {
-        this.slot = slot;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Classroom getClassRoom() {
-        return classroom;
-    }
-
-    public void setClassRoom(Classroom classRoom) {
-        this.classroom = classRoom;
-    }
 }

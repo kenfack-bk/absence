@@ -29,35 +29,35 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public StudentReportData buildStudentStatData(String registrationNumber, LocalDate startDate,
-                                                  LocalDate endDate) {
+    public StudentReportPayload buildStudentStatData(String registrationNumber, LocalDate startDate,
+                                                     LocalDate endDate) {
         Student student = studentRepository.findByRegistrationNumber(registrationNumber);
         List<Absence> absences = absenceRepository.findByStudentRegistrationNumberAndAbsenceDateBetween(
                 registrationNumber, startDate, endDate);
         if(absences == null || absences.isEmpty()){
-            return new StudentReportData(0, 0,
+            return new StudentReportPayload(0, 0,
                     registrationNumber, student.getName(), new ArrayList<>());
         }
 
         int totalAbsences = 0;
         int totalJustifyAbsences = 0;
-        List<StudentReportItem>  stats = new ArrayList<>();
+        List<StudentReportPayload.Item>  stats = new ArrayList<>();
         for (Absence abs : absences) {
             totalAbsences += abs.getSlot().getDuration();
             if(abs.isJustify()) totalJustifyAbsences += abs.getSlot().getDuration();
-            stats.add(new StudentReportItem(abs));
+            stats.add(new StudentReportPayload.Item(abs));
         }
-        stats.stream().sorted(Comparator.comparing(StudentReportItem::getAbsenceDate));
-        return new StudentReportData(totalAbsences, totalJustifyAbsences,
+        stats.stream().sorted(Comparator.comparing(StudentReportPayload.Item::getAbsenceDate));
+        return new StudentReportPayload(totalAbsences, totalJustifyAbsences,
                 registrationNumber, student.getName(), stats);
     }
 
     @Override
-    public ClassroomReportData buildClassroomStatData(String classroomCode, LocalDate startDate, LocalDate endDate) {
+    public ClassroomReportPayload buildClassroomStatData(String classroomCode, LocalDate startDate, LocalDate endDate) {
         Classroom cls = classroomRepository.findByCode(classroomCode);
-        List<IClassroomReportItem> rawData = absenceRepository.findClassroomAbsences(cls.getId(), startDate, endDate);
+        List<ClassroomReportPayload.IClassroomReportItem> rawData = absenceRepository.findClassroomAbsences(cls.getId(), startDate, endDate);
 
-        Map<String, ClassroomReportItem> data = new HashMap<>();
+        Map<String, ClassroomReportPayload.Item> data = new HashMap<>();
         AtomicInteger totalAbsencesDuration  = new AtomicInteger();
         AtomicInteger totalJustifyAbsencesDuration = new AtomicInteger();
 
@@ -65,9 +65,9 @@ public class ReportServiceImpl implements ReportService {
 
         rawData.stream().forEach(
                 item -> {
-                    ClassroomReportItem elem = data.get(item.getRegistrationNumber());
+                    ClassroomReportPayload.Item elem = data.get(item.getRegistrationNumber());
                     if(elem == null){
-                        ClassroomReportItem newItem = new ClassroomReportItem(item.getRegistrationNumber(), item.getName(),
+                        ClassroomReportPayload.Item newItem = new ClassroomReportPayload.Item(item.getRegistrationNumber(), item.getName(),
                                 item.getDuration(), item.isJustify() ? item.getDuration() : 0);
                         data.put(item.getRegistrationNumber(), newItem);
                         if (item.isJustify()){
@@ -85,16 +85,18 @@ public class ReportServiceImpl implements ReportService {
                 }
         );
 
-        List<Student> students = studentRepository.findByClassroomCodeAndRegistrationNumberNotIn(classroomCode,
+        List<Student> students = studentRepository
+                .findByClassroomCodeAndRegistrationNumberNotIn(classroomCode,
                 registrationNumbers);
+
         students.stream().forEach(
                 student -> {
-                    data.put(student.getRegistrationNumber(), new ClassroomReportItem(student.getRegistrationNumber(),
+                    data.put(student.getRegistrationNumber(), new ClassroomReportPayload.Item(student.getRegistrationNumber(),
                             student.getName(), 0,0));
                 }
         );
 
-        return new ClassroomReportData(classroomCode, totalAbsencesDuration.get(),
+        return new ClassroomReportPayload(classroomCode, totalAbsencesDuration.get(),
                 totalJustifyAbsencesDuration.get(), new ArrayList<>(data.values()));
     }
 }

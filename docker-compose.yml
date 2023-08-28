@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  absence_service:
+    container_name: absence_service
+    image: absence/absences-server
+    restart: always
+    build: .
+    ports:
+      - 9099:9099
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - postgres_service
+
+
+  postgres_service:
+    container_name: postgres_service
+    image: postgres:12
+    restart: always
+    ports:
+      - 5430:5430
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres@2022
+      POSTGRES_DB: absencedb_prod
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}

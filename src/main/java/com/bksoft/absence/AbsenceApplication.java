@@ -12,6 +12,6 @@ public class AbsenceApplication {
 
 	//TODO
 	// intégrer la gestion des demandes d'absences par les étudiants
-	// courbe d'évolution des absences au cours des semaines/mois, par classe
+	// courbe d'évolution des absences au cours des semaines/mois, par salle de classe
 
 }

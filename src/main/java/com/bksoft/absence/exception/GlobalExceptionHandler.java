@@ -18,29 +18,29 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // handle specifics exceptions
-
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception,
-                                                                        WebRequest webRequest){
+    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(
+            ResourceNotFoundException exception, WebRequest webRequest){
+
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
                 webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = {APIException.class, BadRequestException.class})
-    public ResponseEntity<ErrorDetails> handleAPIException(Exception exception,
-                                                               WebRequest webRequest){
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorDetails> handleBadRequestException(
+            BadRequestException exception, WebRequest webRequest){
+
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
                 webRequest.getDescription(false));
-        return ResponseEntity.badRequest()
-                .body(errorDetails);
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     // global exceptions
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception,
-                                                               WebRequest webRequest){
+    public ResponseEntity<ErrorDetails> handleGlobalException(
+            Exception exception, WebRequest webRequest){
+
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
                 webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,11 +54,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "Access denied message here", new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers,
-                                                                  HttpStatus status,
-                                                                  WebRequest request) {
+    //@ExceptionHandler({ MethodArgumentNotValidException.class })
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,  HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) ->{
             String fieldName = ((FieldError)error).getField();

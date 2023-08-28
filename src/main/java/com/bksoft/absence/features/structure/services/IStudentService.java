@@ -1,6 +1,5 @@
 package com.bksoft.absence.features.structure.services;
 
-import com.bksoft.absence.features.reports.payload.StudentReportData;
 import com.bksoft.absence.features.structure.payload.StudentDto;
 import com.bksoft.absence.models.Student;
 

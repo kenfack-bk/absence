@@ -1,7 +1,7 @@
 package com.bksoft.absence.features.edit.service;
 
 import com.bksoft.absence.models.Student;
-import com.bksoft.absence.payload.EditAbsenceRequest;
+import com.bksoft.absence.payload.EditAbsencePayload;
 import com.bksoft.absence.payload.JustifyAbsenceRequest;
 
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ public interface EditService {
      * @param request
      * @return number of correctly absence added
      */
-    void editAbsences(EditAbsenceRequest request);
+    void editAbsences(EditAbsencePayload request);
 
     void justifyAbsences(JustifyAbsenceRequest request);
 

@@ -1,10 +1,13 @@
 package com.bksoft.absence.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "slots")
+@Getter @Setter
 public class Slot extends BaseEntity {
 
     private int startTime;
@@ -19,29 +22,5 @@ public class Slot extends BaseEntity {
             this.startTime = startTime;
             this.endTime = endTime;
             this.duration = duration;
-    }
-
-    public int getDuration(){
-        return this.duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-    public int getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(int endTime) {
-        this.endTime = endTime;
     }
 }
